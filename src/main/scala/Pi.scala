@@ -12,18 +12,20 @@ object Pi extends App {
   }
 
   def monteCarlo(trials: Int, test: () => Boolean): Double = {
-    def booleanToDouble: Double = if (test()) 1.0d else 0.0d
+    def booleanToInt: Int = if (test()) 1 else 0
+
     @tailrec
-    def recurse(n: Int, sum: Double): Double = {
+    def recurse(n: Int, sum: Int): Double = {
       n match {
-        case 0 => sum / trials
-        case x => recurse(n - 1, sum + booleanToDouble)
+        case 0 => sum.toDouble / trials
+        case _ => recurse(n - 1, sum + booleanToInt)
       }
     }
 
-    recurse(trials, 0.0d)
+    recurse(trials, 0)
   }
 
-  val pi = monteCarlo(10000000, circleTest) * 4
+  val pi = monteCarlo(100000000, circleTest) * 4
+
   println(pi)
 }

@@ -5,21 +5,24 @@ object FileSizeForkJoin extends App {
 
   case class FileFinder(file: File) extends RecursiveTask[Long] {
     override def compute(): Long = {
-      if (file.isFile)
-        file.length()
-      else {
-        val children = file.listFiles()
-        val filesSize = children.filter(_.isFile).map(_.length()).sum
-        val folders = children.filter(_.isDirectory).map(FileFinder)
-        val foldersSize = folders.map(_.fork().join()).sum
-        filesSize + foldersSize
+      file match {
+        case ff if ff.exists() =>
+          if (file.isFile)
+            file.length()
+          else {
+            file.listFiles().collect {
+              case f if f.isFile => f.length()
+              case d if d.isDirectory => FileFinder(d).fork().join()
+            }.sum
+          }
+        case _ => 0
       }
     }
   }
 
   val start = System.nanoTime()
   val pool = new ForkJoinPool
-  val size = pool.invoke(FileFinder(new File("/Users/yao/loyal3/ach-service")))
+  val size = pool.invoke(FileFinder(new File("/tmp")))
   val end = System.nanoTime()
 
   println(s"Total size: $size")

@@ -15,16 +15,16 @@ case class Player(num: Int, cards: List[Card]) {
 }
 
 object Deck {
-  val suits = Array(Spades, Clubs, Hearts, Diamonds)
-  val symbols: Array[String] = (2 to 10).map(_.toString).toArray ++ Array("J", "Q", "K", "A")
-  
-  val cards: Array[Card] =
+  val suits = Set(Spades, Clubs, Hearts, Diamonds)
+  val symbols: Set[String] = (2 to 10).map(_.toString).toSet ++ Set("J", "Q", "K", "A")
+
+  val cards: Set[Card] =
     for {
       suit <- suits
       symbol <- symbols
     } yield Card(symbol, suit)
 
-  def shuffle = Random.shuffle(cards.toList)
+  def shuffle: List[Card] = Random.shuffle(cards.toList)
 
   def deal(numPlays: Int): List[Player] = {
     require(Array(2, 4).contains(numPlays), "Only support 2 or 4 players.")
@@ -34,6 +34,7 @@ object Deck {
       map + (n -> (card :: map.getOrElse(n, Nil)))
     }.toList.map(e => Player(e._1, e._2))
   }
+
 }
 
 object CardGames extends App {

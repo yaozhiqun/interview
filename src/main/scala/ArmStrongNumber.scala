@@ -9,7 +9,9 @@ object ArmStrongNumber extends App {
         digits(n / 10, n % 10 :: l)
     }
 
-    digits(num, Nil).reverse.map(x => x * x * x).sum == num
+    println(digits(num, Nil))
+
+    digits(num, Nil).map(x => x * x * x).sum == num
   }
 
   println(isArmStrong(371))

@@ -9,6 +9,7 @@ object SingleLinkedList extends App {
   case class SingleLinkedList(private val node: Node) {
 
     def add(value: String): SingleLinkedList = {
+
       def recurse(next: Option[Node], prev: Node): Node = {
         prev.copy(next = Some(
           next match {
@@ -17,10 +18,12 @@ object SingleLinkedList extends App {
           }
         ))
       }
+
       SingleLinkedList(recurse(node.next, node))
     }
 
     def reverse(): SingleLinkedList = {
+
       def recurse(node: Node, prev: Option[Node]): Node = {
         val reversed = node.copy(next = prev)
         node.next match {
@@ -28,10 +31,11 @@ object SingleLinkedList extends App {
           case Some(n) => recurse(n, Some(reversed))
         }
       }
+      
       SingleLinkedList(recurse(node, None))
     }
 
-    override def toString = {
+    override def toString: String = {
       node.toString
     }
   }

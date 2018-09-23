@@ -15,7 +15,7 @@ case object NoVacancy extends ParkingLotSign
 case class ParkingLot(spaces: Set[ParkingSpace]) {
 
   def sign: ParkingLotSign = {
-    if (spaces.exists(_.vacant == true))
+    if (spaces.exists(_.vacant))
       Vacancy
     else
       NoVacancy
@@ -70,15 +70,15 @@ case object Regular extends CarType
 
 case class Car(plateNumber: String, carType: CarType, hasAssociationCard: Boolean = false) {
 
-  def enter(parkingLot: ParkingLot): Option[Parker] = {
+  def enter(parkingLot: ParkingLot): Option[Parking] = {
     parkingLot.sign match {
-      case Vacancy => Some(Parker(parkingLot, this))
+      case Vacancy => Some(Parking(parkingLot, this))
       case NoVacancy => None
     }
   }
 }
 
-case class Parker(parkingLot: ParkingLot, car: Car, parkingSpace: Option[ParkingSpace] = None) {
+case class Parking(parkingLot: ParkingLot, car: Car, parkingSpace: Option[ParkingSpace] = None) {
 
   def park(parkingSpaceNumber: Int): Option[ParkingSpace] = {
     val parkingSpace = parkingLot.getSpace(parkingSpaceNumber)
@@ -114,7 +114,6 @@ case class Parker(parkingLot: ParkingLot, car: Car, parkingSpace: Option[Parking
 
 object ParkingLot extends App {
 
-
   override def main(args: Array[String]) {
     val parkingLot = ParkingLot(Set(
       ParkingSpace(1, HandicappedSpace, 10),
@@ -127,11 +126,11 @@ object ParkingLot extends App {
       ParkingSpace(8, RegularSpace, 17)
     ))
 
-    def park(car: Car): Parker = {
+    def park(car: Car): Parking = {
       val spaceOpt = for {
-        parker <- car.enter(parkingLot)
-        nearestSpace <- parker.parkingLot.findNearestSpace(car)
-        space <- parker.park(nearestSpace.number)
+        packing <- car.enter(parkingLot)
+        nearestSpace <- packing.parkingLot.findNearestSpace(car)
+        space <- packing.park(nearestSpace.number)
       } yield {
         space
       }
@@ -143,9 +142,10 @@ object ParkingLot extends App {
           println(s"${car.plateNumber} could not find a parking space")
           println(s"Parking lot sign: ${parkingLot.sign}")
           println(s"Available spaces: ${parkingLot.spaces.filter(_.vacant).map(_.number).mkString(" ")}")
+          println(s"Available spaces: ${parkingLot.spaces collect { case space if space.vacant => space.number } mkString " "}")
       }
 
-      Parker(parkingLot, car, spaceOpt)
+      Parking(parkingLot, car, spaceOpt)
     }
 
     park(Car("a1", Compact))

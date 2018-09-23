@@ -33,7 +33,7 @@ object PrimeFinder extends App {
   }
 
   def par(): Unit = {
-    val totalPrimes = numbers.toList.par.count(isPrime)
+    val totalPrimes = numbers.par.count(isPrime)
     println(s"There are $totalPrimes prime numbers to $target")
   }
 

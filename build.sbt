@@ -8,3 +8,5 @@ lazy val root = (project in file(".")).
 libraryDependencies += "com.twitter" %% "util-core" % "6.19.0"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test" withSources()
+
+libraryDependencies += "joda-time" % "joda-time" % "2.10"

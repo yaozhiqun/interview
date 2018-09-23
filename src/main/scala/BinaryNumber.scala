@@ -66,4 +66,6 @@ object BinaryNumber extends App {
   }
 
   println(toNumber3(111111))
+
+  Array(1, 0, 1).mkString.toInt
 }

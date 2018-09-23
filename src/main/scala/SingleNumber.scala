@@ -1,3 +1,5 @@
+
+
 object SingleNumber extends App {
 
   def single(numbers: Array[Int]): Option[Int] = {

@@ -37,4 +37,15 @@ object Fibonacci extends App {
   }
 
   println(fib2(8))
+
+  def fib3(n: Int): Int = {
+
+    if (n < 2) {
+      n
+    } else {
+      fib3(n - 1) + fib3(n - 2)
+    }
+  }
+
+  println(fib3(8))
 }

@@ -8,7 +8,7 @@ object Rational extends App {
       Rational(n, d)
     }
 
-    override def toString = {
+    override def toString: String = {
 
       def lcd(a: Int, b: Int): Int = {
         if (b == 0)

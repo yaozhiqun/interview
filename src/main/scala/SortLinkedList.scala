@@ -7,7 +7,7 @@ object SortLinkedList extends App {
       copy(next = Some(nextNode))
     }
 
-    def sort = {
+    def sort: Node = {
       fromList(quickSort(toList))
     }
 
@@ -42,7 +42,7 @@ object SortLinkedList extends App {
       recurse(0, sorted.length)
     }
 
-    override def toString = {
+    override def toString: String = {
       toList.mkString(",")
     }
 
