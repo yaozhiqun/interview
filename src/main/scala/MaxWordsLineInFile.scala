@@ -8,7 +8,7 @@ object MaxWordsLineInFile extends App {
     val maxWordCountLineIndex = lines.zipWithIndex.foldLeft(Map[Int, Int]()) { case (map, (line, index)) =>
         val wordCount = line.split(" ").filterNot(_.trim == "").length
         map + (index -> wordCount)
-    }.toList.sortWith((a, b) => a._2 > b._2).head._1
+    }.toList.sortWith(_._2 > _._2).head._1
 
     lines(maxWordCountLineIndex)
   }

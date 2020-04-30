@@ -1,4 +1,3 @@
-import scala.annotation.tailrec
 import scala.util.Random
 
 /**
@@ -6,26 +5,18 @@ import scala.util.Random
  */
 object Pi extends App {
 
-  def circleTest(): Boolean = {
-    val (x, y) = (Random.nextDouble(), Random.nextDouble())
-    Math.sqrt(x * x + y * y) <= 1
-  }
+  def pi(trails: Long): Double = {
 
-  def monteCarlo(trials: Int, test: () => Boolean): Double = {
-    def booleanToInt: Int = if (test()) 1 else 0
-
-    @tailrec
-    def recurse(n: Int, sum: Int): Double = {
-      n match {
-        case 0 => sum.toDouble / trials
-        case _ => recurse(n - 1, sum + booleanToInt)
-      }
+    def testCircle: Boolean = {
+      val (x, y) = (Random.nextDouble(), Random.nextDouble())
+      (x * x + y * y) <= 1
     }
 
-    recurse(trials, 0)
+    ((0L until trails).foldLeft(0) {
+      case (inCircle, _) if testCircle => inCircle + 1
+      case (inCircle, _) => inCircle
+    }.toDouble / trails.toDouble) * 4
   }
 
-  val pi = monteCarlo(100000000, circleTest) * 4
-
-  println(pi)
+  println(pi(100000))
 }

@@ -11,4 +11,6 @@ object Compress extends App {
       }
     }.reverse.map(node => s"${node.char}${node.count}").mkString
   }
+
+  println(compress("aaabbcddddd"))
 }

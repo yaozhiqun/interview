@@ -1,4 +1,4 @@
-import org.scalatest.{FreeSpec, FunSuite, Matchers}
+import org.scalatest.{FreeSpec, Matchers}
 
 class BinarySearchSpec extends FreeSpec with Matchers {
 

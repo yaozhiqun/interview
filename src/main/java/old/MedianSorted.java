@@ -1,3 +1,5 @@
+package old;
+
 public class MedianSorted {
 
     public static double findMedianSortedArrays(int[] A, int[] B) {

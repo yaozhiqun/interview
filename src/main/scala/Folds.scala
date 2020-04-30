@@ -7,7 +7,7 @@ case class Person(name: String, age: Int, sex: Sex)
 // https://coderwall.com/p/4l73-a/scala-fold-foldleft-and-foldright
 object Folds extends App {
 
-  def foldLeft(persons: Seq[Person]): Seq[String] = {
+  def addTitle(persons: Seq[Person]): Seq[String] = {
     persons.foldLeft(Seq[String]()) { (seq, person) =>
       person match {
         case Person(name, age, Male) =>
@@ -18,7 +18,7 @@ object Folds extends App {
     }
   }
 
-  foldLeft(Person("John", 36, Male) :: Person("Jenny", 26, Female) :: Nil)
+  addTitle(Person("John", 36, Male) :: Person("Jenny", 26, Female) :: Nil)
     .foreach(println)
 
 }

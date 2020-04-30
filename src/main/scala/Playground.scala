@@ -1,9 +1,12 @@
-object SingleLinkedList extends App {
+import java.io.File
+
+import scala.io.Source
+import scala.util.Random
+
+object Playground extends App {
 
   case class Node(value: String, next: Option[Node] = None) {
-    override def toString: String = {
-      value + next.map(n => "-" + n.toString).getOrElse("")
-    }
+    override def toString: String = value + next.map("-" + _.toString).getOrElse("")
   }
 
   case class SingleLinkedList(private val node: Node) {
@@ -36,7 +39,7 @@ object SingleLinkedList extends App {
     }
   }
 
-  val linked = SingleLinkedList("a").add("b").add("c")
-  println(s"linked: $linked")
-  println(s"reversed: ${linked.reverse}")
+  val linkedList = SingleLinkedList("a").add("b").add("c").add("d")
+  println(linkedList)
+  println(linkedList.reverse)
 }
