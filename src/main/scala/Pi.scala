@@ -6,26 +6,28 @@ import scala.util.Random
  */
 object Pi extends App {
 
-  def circleTest(): Boolean = {
-    val (x, y) = (Random.nextDouble(), Random.nextDouble())
-    Math.sqrt(x * x + y * y) <= 1
-  }
 
-  def monteCarlo(trials: Int, test: () => Boolean): Double = {
-    def booleanToInt: Int = if (test()) 1 else 0
+  def pi(trails: Long): Double = {
 
-    @tailrec
-    def recurse(n: Int, sum: Int): Double = {
-      n match {
-        case 0 => sum.toDouble / trials
-        case _ => recurse(n - 1, sum + booleanToInt)
+    implicit def bool2Int(bool: Boolean): Long = {
+      if (bool) 1 else 0
+    }
+
+    def testCircle(): Boolean = {
+      val (x, y) = (Random.nextDouble(), Random.nextDouble())
+      (x * x + y * y) <= 1
+    }
+
+    def rec(n: Long, inCircle: Long = 0): Double = {
+      if (n == 0) {
+        (inCircle.toDouble / trails.toDouble) * 4
+      } else {
+        rec(n - 1, inCircle + testCircle)
       }
     }
 
-    recurse(trials, 0)
+    rec(trails)
   }
 
-  val pi = monteCarlo(100000000, circleTest) * 4
-
-  println(pi)
+  println(pi(100000000))
 }

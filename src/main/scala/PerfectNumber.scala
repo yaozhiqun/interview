@@ -1,27 +1,13 @@
 object PerfectNumber extends App {
 
-  def findDivisors(num: Int): List[Int] = {
-    (1 until num).filter(num % _ == 0).toList
-  }
-
-  def isPerfectNumber(num: Int, divisors: Map[Int, List[Int]]): Boolean = {
-    divisors(num).reverse match {
-      case head :: tail => tail.sum == head
-      case _ => false
+  def findPerfect(x: Int): List[Int] = {
+    (1 to x).par.foldLeft(List[Int]()) { (l, n) =>
+      if ((1 until n).filter(n % _ == 0).sum == n)
+        l :+ n
+      else
+        l
     }
   }
 
-  def isEven: Int => Boolean = _ % 2 == 0
-
-  def findPerfectNumber(limit: Int): Array[Int] = {
-    val divisors = (1 until limit).filter(isEven).foldLeft(Map[Int, List[Int]]()) { case (map, int) =>
-      map + (int -> map.getOrElse(int, findDivisors(int)))
-    }
-
-    (1 until limit).filter(isEven).par.filter(isPerfectNumber(_, divisors)).toArray
-  }
-
-  val perfects = findPerfectNumber(1000)
-  perfects.foreach(println)
-
+  findPerfect(1000) foreach println
 }

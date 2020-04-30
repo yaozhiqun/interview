@@ -1,71 +1,56 @@
 object BinaryNumber extends App {
 
-  def toBinary(number: Int): Array[Int] = {
+  def toBinary(n: Int): List[Int] = {
 
-    def recurse(num: Int, binary: Array[Int]): Array[Int] = {
-      if (num == 0)
-        binary
+    def rec(x: Int, xs: List[Int]): List[Int] = {
+      if (x == 0)
+        xs
       else
-        recurse(num / 2, num % 2 +: binary)
+        rec(x / 2, x % 2 :: xs)
     }
-    recurse(number, Array[Int]())
+
+    rec(n, Nil)
   }
 
   println(toBinary(25).mkString)
 
-  def toNumber(binary: Int): Int = {
+  def toBin(dec: Int): Int = {
+    def recur(x: Int, bin: List[Int]): List[Int] = {
+      val divider = x / 2
+      val remainder = x % 2
 
-    def recurse(a: List[Int], n: Int): Int = {
-      a match {
-        case 0 :: Nil => n
-        case 1 :: Nil => n + 1
-        case 0 :: tail => recurse(tail, n)
-        case 1 :: tail => recurse(tail, n + Math.pow(2, tail.length).toInt)
-        case _ => throw new IllegalArgumentException(s"$binary is not a binary number")
+      val xs = remainder :: bin
+      if (divider > 0) {
+        recur(divider, xs)
+      } else {
+        xs
       }
     }
 
-    recurse(binary.toString.toCharArray.map(_.asDigit).toList, 0)
+    val l = recur(dec, Nil)
+    l.zipWithIndex.foldLeft(0) {
+      case (acc, (n, index)) => acc + n * Math.pow(10, l.size - index - 1).toInt
+    }
   }
 
-  println(toNumber(101))
+  println(toBin(96))
 
-  def toNumber2(binary: Int) = {
+  def toDec(bin: Int): Int = {
+    def recur(bin: Int, dec: Int, power: Int): Int = {
+      val divider = bin / 10
+      val remainder = bin % 10
 
-    def recurse(b: Int, list: List[Int]): List[Int] = {
-      val y = b / 10
-      val x = b % 10 :: list
-      if (y == 0) x
-      else recurse(y, x)
-    }
+      val newDec = dec + (if (remainder == 1) Math.pow(2, power).toInt else 0)
 
-    val list = recurse(binary, Nil)
-    list.foldLeft((list.length - 1, 0): (Int, Int)) { case ((n, acc), num) =>
-      val x = num match {
-        case 0 => acc
-        case 1 => acc + Math.pow(2, n).toInt
-        case _ => throw new IllegalArgumentException(s"$binary is not a binary number")
+      if (divider == 0) {
+        newDec
+      } else {
+        recur(divider, newDec, power + 1)
       }
-      (n - 1, x)
-    }._2
-  }
-  println(toNumber2(110))
-
-  def toNumber3(binary: Int): Int = {
-
-    def recurse(num: Int, times: Int, acc: Int): Int = {
-      val divisor = num / 10
-      val remainder = num % 10
-      val newAcc = if (remainder == 1) acc + Math.pow(2, times).toInt else acc
-
-      if (divisor == 0) newAcc
-      else recurse(divisor, times + 1, newAcc)
     }
 
-    recurse(binary, 0, 0)
+    recur(bin, 0, 0)
   }
 
-  println(toNumber3(111111))
-
-  Array(1, 0, 1).mkString.toInt
+  println(toDec(toBin(96)) == 96)
 }

@@ -16,5 +16,9 @@ object MiddleNumber extends App {
     rec(xs, 0, 0)
   }
 
-  println(find(List(1, 14, 2, 8, 4, 5, 12, 45, 25, 1, 27, 26, 3, 34, 8, 9, 30, 32, 2)))
+  val list = List(1, 14, 2, 8, 4, 5, 12, 45, 25, 1, 27, 26, 3, 34, 8, 9, 30, 32, 2)
+  println(find(list))
+  println(list.sum / list.length)
+  println(list.length)
+  println(list(10))
 }

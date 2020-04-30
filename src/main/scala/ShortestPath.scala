@@ -1,5 +1,3 @@
-import com.sun.xml.internal.bind.v2.util.EditDistance
-
 object ShortestPath extends App {
 
   case class Node(id: Int, var parent: Option[Node] = None, var paths: List[Path] = Nil) {
