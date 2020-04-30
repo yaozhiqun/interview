@@ -3,7 +3,10 @@ lazy val root = (project in file(".")).
     name := "interview",
     version := "1.0",
     scalaVersion := "2.10.4"
+
   )
+
+resolvers ++= Seq("jcenter" at "https://artifactory.corp.creditkarma.com:8443/artifactory/jcenter/")
 
 libraryDependencies += "com.twitter" %% "util-core" % "6.19.0"
 

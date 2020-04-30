@@ -8,7 +8,7 @@ object MakeWordMap extends App {
     "This is the third sentence.")
 
   val wordMap = sentences.flatMap(_.split(" ")).foldLeft(Map[String, Int]())
-  { case (map, word) =>
+  { (map, word) =>
     map + (word -> (map.getOrElse(word, 0) + 1))
   }
 

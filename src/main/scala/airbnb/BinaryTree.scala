@@ -16,7 +16,7 @@ object BinaryTree extends App {
       (data :: l.reverse).reverse ::: r
     }
 
-    override def toString = {
+    override def toString: String = {
       flatten.mkString(",")
     }
   }
@@ -57,7 +57,7 @@ object BinaryTree extends App {
 
   println(tree)
 
-  val value = 55
+  val value = 35
   val result = isPresent(tree, value)
   println(s"$value is present in $datas = $result")
 }
