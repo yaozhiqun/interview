@@ -8,7 +8,7 @@ object AllPermutationSolution extends App {
       case Seq(head) => List(head.toString)
       case seq =>
         seq.foldLeft(List[String]()) { (l, char) =>
-          l ::: findAll(seq.diff(char.toString)).map(p => char +: p)
+          l ::: findAll(seq.diff(Seq(char))).map(p => char +: p)
         }
 //        seq.flatMap(char => findAll(seq.diff(Seq(char))).map(permu => char +: permu)).toList
     }

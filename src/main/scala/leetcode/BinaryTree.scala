@@ -29,10 +29,6 @@ object BinaryTree extends App {
                     Some(Node(3)))
   println(tree1.tilt)
   println(tree1.univalued)
-<<<<<<< HEAD
-//
-=======
->>>>>>> 6d9129e02e9db8a6f3c34b6e6199bc494669ff8e
 
   val tree2 = Node(1,
                     Some(Node(1,
