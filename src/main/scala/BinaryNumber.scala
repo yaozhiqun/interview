@@ -15,11 +15,19 @@ object BinaryNumber extends App {
   println(toBinary(25).mkString)
 
   def toBin(dec: Int): Int = {
+<<<<<<< HEAD
     def recur(x: Int, bin: List[Int]): List[Int] = {
       val divider = x / 2
       val remainder = x % 2
 
       val xs = remainder :: bin
+=======
+    def recur(x: Int, bins: List[Int]): List[Int] = {
+      val divider = x / 2
+      val remainder = x % 2
+
+      val xs = remainder :: bins
+>>>>>>> 6d9129e02e9db8a6f3c34b6e6199bc494669ff8e
       if (divider > 0) {
         recur(divider, xs)
       } else {

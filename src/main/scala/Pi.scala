@@ -1,4 +1,3 @@
-import scala.annotation.tailrec
 import scala.util.Random
 
 /**
@@ -6,6 +5,7 @@ import scala.util.Random
  */
 object Pi extends App {
 
+<<<<<<< HEAD
 
   def pi(trails: Long): Double = {
 
@@ -30,4 +30,20 @@ object Pi extends App {
   }
 
   println(pi(100000000))
+=======
+  def pi(trails: Long): Double = {
+
+    def testCircle: Boolean = {
+      val (x, y) = (Random.nextDouble(), Random.nextDouble())
+      (x * x + y * y) <= 1
+    }
+
+    ((0L until trails).foldLeft(0) {
+      case (inCircle, _) if testCircle => inCircle + 1
+      case (inCircle, _) => inCircle
+    }.toDouble / trails.toDouble) * 4
+  }
+
+  println(pi(100000))
+>>>>>>> 6d9129e02e9db8a6f3c34b6e6199bc494669ff8e
 }
