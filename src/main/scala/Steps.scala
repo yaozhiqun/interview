@@ -1,23 +1,27 @@
-object Steps {
+object Steps extends App {
 
-  def steps(n: Int): Unit = {
+  def steps(n: Int): String = {
 
-    def recursive(row: Int, stair: Int, s: String): Unit = {
+    def recursive(row: Int = 0, col: Int = 0, s: String = ""): String = {
 
       if (row < n) {
-        if (stair < n) {
-          if (stair <= row)
-            recursive(row, stair + 1, s + "*")
+        if (col < n) {
+          if (col <= row)
+            recursive(row, col + 1, s + "*")
           else
-            recursive(row, stair + 1, s + " ")
+            recursive(row, col + 1, s + " ")
         } else {
-          println(s)
-          recursive(row + 1, 0, "")
+          recursive(row + 1, 0, s + "\n")
         }
+      } else {
+        s
       }
     }
 
-    recursive(0, 0, "")
+    recursive()
+
   }
+
+  println(steps(8))
 
 }

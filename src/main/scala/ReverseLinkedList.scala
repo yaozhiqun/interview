@@ -9,7 +9,7 @@ object ReverseLinkedList extends App {
       copy(next = Some(nextNode))
     }
 
-    override def toString = {
+    override def toString: String = {
       def recurse(node: Node, list: List[String]): List[String] = {
         val current = node.name :: list
         node.next.map(recurse(_, current)).getOrElse(current)

@@ -23,6 +23,6 @@ object Rational extends App {
     }
   }
 
-  println(Rational(1, 5) + Rational(2, 5))
+  println(Rational(1, 5) + Rational(3, 5))
 
 }

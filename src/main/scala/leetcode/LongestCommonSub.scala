@@ -34,13 +34,13 @@ object LongestCommonSub extends App {
   println(find("abc", "abc"))
   println(find("ace", "dfs"))
 
+  // *******
   def lcs(s1: String, s2: String): Option[String] = {
 
     def rec(l1: List[Char], l2: List[Char]): List[Char] = {
       (l1, l2) match {
-        case (_, Nil) => Nil
-        case (Nil, _) => Nil
-        case (x :: xs, y :: ys) => {
+        case (_, Nil) | (Nil, _) => Nil
+        case (x :: xs, y :: ys) =>
           if (x == y) {
             x :: rec(xs, ys)
           } else {
@@ -52,7 +52,6 @@ object LongestCommonSub extends App {
               yInXs
             }
           }
-        }
       }
     }
 

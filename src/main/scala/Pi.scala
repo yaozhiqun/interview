@@ -38,9 +38,8 @@ object Pi extends App {
       (x * x + y * y) <= 1
     }
 
-    ((0L until trails).foldLeft(0) {
-      case (inCircle, _) if testCircle => inCircle + 1
-      case (inCircle, _) => inCircle
+    ((0L until trails).foldLeft(0) { (inCircle, _) =>
+      if (testCircle) inCircle + 1 else inCircle
     }.toDouble / trails.toDouble) * 4
   }
 

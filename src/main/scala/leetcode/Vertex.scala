@@ -35,7 +35,10 @@ object Vertex extends App {
         }
       }
 
-      recur().sortBy(_.length).headOption.getOrElse(Nil)
+      def paths = recur()
+      // debug
+      // paths.foreach(println)
+      paths.sortBy(_.length).headOption.getOrElse(Nil)
     }
 
     private def found(target: Int): Boolean = {
@@ -89,11 +92,11 @@ object Vertex extends App {
         .add(Vertex(10))
         .add(Vertex(11))))
 
-  println(vertex.dfs(12))
-  println(vertex.bfs(5))
+//  println(vertex.dfs(12))
+//  println(vertex.bfs(5))
   println(vertex.dfOrder)
   println(vertex.bfOrder)
 
-  println(vertex.findShortestPath(5))
-  println(vertex.findShortestPath(18))
+//  println(vertex.findShortestPath(5))
+//  println(vertex.findShortestPath(18))
 }

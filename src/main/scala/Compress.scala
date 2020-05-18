@@ -2,14 +2,17 @@ object Compress extends App {
 
   def compress(str: String): String = {
 
-    case class Node(char: Char, count: Int)
+    case class Node(char: Char, count: Int) {
+      override def toString: String = s"$char$count"
+    }
 
     str.toCharArray.foldLeft(List[Node]()) { (nodes, char) =>
       nodes match {
-        case head :: tail if head.char == char => head.copy(count = head.count + 1) :: tail
-        case _ => Node(char, 1) :: nodes
+        case Nil => List(Node(char, 1))
+        case init :+ Node(`char`, count) if `char` == char => init :+ Node(char, count + 1)
+        case _ => nodes :+ Node(char, 1)
       }
-    }.reverse.map(node => s"${node.char}${node.count}").mkString
+    }.map(_.toString).mkString
   }
 
   println(compress("aaabbcddddd"))
