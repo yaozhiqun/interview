@@ -14,6 +14,6 @@ object AllPermutationSolution extends App {
     }
   }
 
-  println(findAll("abc"))
-  println("abc".permutations.length)
+  println(findAll("abcd"))
+  println("abcd".permutations.length)
 }
