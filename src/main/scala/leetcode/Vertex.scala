@@ -19,7 +19,7 @@ object Vertex extends App {
       found(target) || siblings.exists(_.found(target)) || {
         children ::: siblings.flatMap(_.children) match {
           case Nil => false
-          case child :: sib => child.bfs(target, sib)
+          case child :: children => child.bfs(target, children)
         }
       }
     }
@@ -92,11 +92,11 @@ object Vertex extends App {
         .add(Vertex(10))
         .add(Vertex(11))))
 
-//  println(vertex.dfs(12))
-//  println(vertex.bfs(5))
+  println(vertex.dfs(12))
+  println(vertex.bfs(5))
   println(vertex.dfOrder)
   println(vertex.bfOrder)
 
-//  println(vertex.findShortestPath(5))
-//  println(vertex.findShortestPath(18))
+  println(vertex.findShortestPath(5))
+  println(vertex.findShortestPath(18))
 }
