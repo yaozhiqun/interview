@@ -4,7 +4,7 @@ object SimpleRegex extends App {
 
   case class Foo(n: String, s: String, x: String, latency: Int)
   def par(str: String): Unit = {
-    val rr = """^(\d{2}) (a|b|c) (\w+) (\d+)ms$""".r
+    val rr = """^(\d{2}) ([abc]) (\w+) (\d+)ms$""".r
     str match {
       case rr(n, s, x, l) => println(Foo(n, s, x, l.toInt))
       case _ => println("none")

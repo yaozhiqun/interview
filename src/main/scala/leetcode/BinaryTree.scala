@@ -19,8 +19,30 @@ object BinaryTree extends App {
           true
         case _ =>
           false
+      }
+    }
+
+    def numOfVisibleLeftmost: Int = {
+      def dfsCount(node: Node, sum: Int = 0): Int = {
+        val sumLeft = node.left.map(l => {
+          dfsCount(l, sum + 1)
+        }).getOrElse(sum)
+        val sumRight = node.right.map(r => {
+          dfsCount(r, sumLeft)
+        }).getOrElse(sumLeft)
+        sumRight
+      }
+//      dfsCount(this)
+      def bfsCount(nodes: List[Node], sum: Int = 0): Int = {
+        nodes match {
+          case Nil =>
+            sum
+          case _ =>
+            bfsCount(nodes.flatMap(_.left) ::: nodes.flatMap(_.right), nodes.count(_.left.isDefined) + sum)
+        }
 
       }
+      bfsCount(List(this))
     }
   }
 
@@ -37,4 +59,31 @@ object BinaryTree extends App {
                               Some(Node(1)))))
 
   println(tree2.univalued)
+
+  def fromArray(array: Array[Int]): Option[Node] = {
+    def recur(lo: Int, hi: Int): Option[Node] = {
+      if (lo > hi)
+        None
+      else {
+        val mi = lo + (hi - lo) / 2
+        Some(Node(array(mi), left = recur(lo, mi - 1), right = recur(mi + 1, hi)))
+      }
+    }
+    recur(0, array.length - 1)
+  }
+
+  println(fromArray(Array(1, 2, 3, 4, 5, 6, 7, 8, 9)))
+
+  val visibleLeftmost = Node(8,
+                             Some(Node(3,
+                               Some(Node(1)),
+                               Some(Node(6,
+                                 Some(Node(4)),
+                                 Some(Node(7)))))),
+                             Some(Node(10,
+                                None,
+                               Some(Node(14,
+                                 Some(Node(13))))))
+  )
+  println(visibleLeftmost.numOfVisibleLeftmost)
 }

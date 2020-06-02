@@ -6,8 +6,6 @@ lazy val root = (project in file(".")).
 
   )
 
-resolvers ++= Seq("jcenter" at "https://artifactory.corp.creditkarma.com:8443/artifactory/jcenter/")
-
 libraryDependencies += "com.twitter" %% "util-core" % "6.19.0"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test" withSources()

@@ -25,5 +25,5 @@ object Pyramid extends App {
 
   }
 
-  println(build(9))
+  println(build(3))
 }

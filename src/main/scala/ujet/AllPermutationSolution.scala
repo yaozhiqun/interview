@@ -10,7 +10,6 @@ object AllPermutationSolution extends App {
         seq.foldLeft(List[String]()) { (l, char) =>
           l ::: findAll(seq.diff(Seq(char))).map(p => char +: p)
         }
-//        seq.flatMap(char => findAll(seq.diff(Seq(char))).map(permu => char +: permu)).toList
     }
   }
 
