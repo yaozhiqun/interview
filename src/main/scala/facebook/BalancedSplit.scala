@@ -12,7 +12,7 @@ object BalancedSplit extends App {
           if (x == prev) {
             x
           } else {
-            if (sorted.take(index + 1).sum == sorted.takeRight(sorted.length - index - ).sum)
+            if (sorted.take(index + 1).sum == sorted.takeRight(sorted.length - index - 2).sum)
               return true
             else
               x
