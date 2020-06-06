@@ -9,11 +9,11 @@ object MaxAreaIsland extends App {
 
   def islands(xys: Array[Array[Int]]): List[Island] = {
 
-    def findLeft(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
+    def adjacentLeft(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
       islands.find(_.dots.exists(d => d.col + 1 == dot.col && d.row == dot.row))
     }
 
-    def findUpper(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
+    def adjacentTop(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
       islands.find(_.dots.exists(d => d.col == dot.col && d.row + 1 == dot.row))
     }
 
@@ -24,18 +24,18 @@ object MaxAreaIsland extends App {
     } {
       if (xys(row)(col) == 1) {
         val dot = Dot(row, col)
-        val left = findLeft(islands, dot)
-        val upper = findUpper(islands, dot)
-        if (left.isDefined && upper.isDefined) {
+        val left = adjacentLeft(islands, dot)
+        val top = adjacentTop(islands, dot)
+        if (left.nonEmpty && top.nonEmpty) {
           islands -= left.get
-          islands -= upper.get
-          islands += Island((dot :: left.get.dots ::: upper.get.dots).distinct)
+          islands -= top.get
+          islands += Island((dot :: left.get.dots ::: top.get.dots).distinct)
         } else if (left.isDefined) {
           islands -= left.get
           islands += Island(dot :: left.get.dots)
-        } else if (upper.isDefined) {
-          islands -= upper.get
-          islands += Island(dot :: upper.get.dots)
+        } else if (top.isDefined) {
+          islands -= top.get
+          islands += Island(dot :: top.get.dots)
         } else {
           islands += Island(dot :: Nil)
         }
@@ -48,12 +48,15 @@ object MaxAreaIsland extends App {
     Array(0,0,1,0,0,0,0,1,0,0,0,0,0), // 0
     Array(0,0,0,0,0,0,0,1,1,1,0,0,0), // 1
     Array(0,1,1,0,1,0,0,0,0,0,0,0,0), // 2
-    Array(0,1,0,0,1,1,0,0,1,0,1,0,0),
-    Array(0,1,0,0,1,1,0,0,1,1,1,0,0),
-    Array(0,0,0,0,0,0,0,0,0,0,1,0,0),
-    Array(0,0,0,0,0,0,0,1,1,1,0,0,0),
+    Array(0,1,0,0,1,1,0,0,1,0,1,0,0), // 3
+    Array(0,1,0,0,1,1,0,0,1,1,1,0,0), // 4
+    Array(0,0,0,0,0,0,0,0,0,0,1,0,0), // 5
+    Array(0,0,0,0,0,0,0,1,1,1,0,0,0), // 6
     Array(0,0,0,0,0,0,0,1,1,0,0,0,0)  // 7
   )
 
-  println(islands(xys).sortBy(_.dots.size).reverse.head)
+  val is = islands(xys)
+//  islands(xys).foreach(println)
+//  println(islands(xys).sortBy(_.dots.size).reverse.head)
+  println(is.maxBy(_.dots.size).dots.size)
 }

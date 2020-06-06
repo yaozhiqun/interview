@@ -42,4 +42,5 @@ object Playground extends App {
   val linkedList = SingleLinkedList("a").add("b").add("c").add("d")
   println(linkedList)
   println(linkedList.reverse)
+
 }
