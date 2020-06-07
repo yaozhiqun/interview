@@ -1,3 +1,5 @@
+
+
 object FindFirstNonRepeatingChar extends App {
 
   case class Stat(count: Int, index: Int)

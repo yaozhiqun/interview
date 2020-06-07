@@ -87,8 +87,7 @@ object FlightTickets extends App {
           preSeat = Some(seat)
         case Seat(_, _, _, _, true) =>
         case Aisle(x, y) =>
-          if (preSeat.getOrElse(x) == x)
-            splitByAisle = true
+          if (preSeat.getOrElse(x) == x) splitByAisle = true
         case _: Empty =>
       }
 

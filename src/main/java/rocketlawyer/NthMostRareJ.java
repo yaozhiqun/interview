@@ -5,16 +5,16 @@ import java.util.stream.Collectors;
 
 public class NthMostRareJ {
 
-    static Optional<Integer> findNthMostRare(List<Integer> xs, Integer nthMostRare) {
-        Map<Integer, Integer> appearance = new HashMap<>();
+    Optional<Integer> findNthMostRare(List<Integer> xs, Integer nthMostRare) {
+        Map<Integer, Integer> occurrence = new HashMap<>();
         for (Integer x: xs) {
-            appearance.put(x, appearance.getOrDefault(x, 0) + 1);
+            occurrence.put(x, occurrence.getOrDefault(x, 0) + 1);
         }
 
-        if (nthMostRare > appearance.size())
+        if (nthMostRare > occurrence.size())
             return Optional.empty();
 
-        Map<Integer, Integer> sorted = appearance.entrySet()
+        Map<Integer, Integer> sorted = occurrence.entrySet()
             .stream()
             .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
             .collect(Collectors.toMap(
@@ -22,17 +22,18 @@ public class NthMostRareJ {
                         (oldValue, newValue) -> oldValue,
                         LinkedHashMap::new));
 
-        System.out.println(sorted);
+//        System.out.println(sorted);
 
         return Optional.of((Integer) sorted.keySet().toArray()[nthMostRare - 1]);
     }
 
     public static void main(String[] args) {
         List<Integer> list = Arrays.asList(5, 4, 3, 5, 2, 5, 4, 3, 2, 5, 4, 3, 5, 5, 4, 1);
-        System.out.println(findNthMostRare(list, 1));
-        System.out.println(findNthMostRare(list, 2));
-        System.out.println(findNthMostRare(list, 5));
-        System.out.println(findNthMostRare(list, 6));
+        NthMostRareJ finder = new NthMostRareJ();
+        System.out.println(finder.findNthMostRare(list, 1));
+        System.out.println(finder.findNthMostRare(list, 2));
+        System.out.println(finder.findNthMostRare(list, 5));
+        System.out.println(finder.findNthMostRare(list, 6));
     }
 }
 
