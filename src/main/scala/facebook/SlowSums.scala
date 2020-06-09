@@ -3,8 +3,8 @@ package facebook
 object SlowSums extends App {
 
   def solve(xs: List[Int]): Option[Int] = {
-//    xs.sorted.reverse match {
-    sortAndReverse(xs) match {
+    xs.sorted.reverse match {
+//    sortAndReverse(xs) match {
       case Nil => None
       case first :: Nil => Some(first)
       case first :: second :: tail =>

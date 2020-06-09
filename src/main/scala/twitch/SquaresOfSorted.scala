@@ -27,7 +27,7 @@ object SquaresOfSorted extends App {
     while(nonNegIndex < A.length && A(nonNegIndex) < 0) nonNegIndex += 1
     var i = nonNegIndex
     var j = nonNegIndex - 1
-    println(s"i: $i j: $j")
+//    println(s"i: $i j: $j")
     Array.tabulate(A.length) { index =>
       if(j < 0 || i < A.length && A(i) < -A(j)) {
         val result = A(i) * A(i)

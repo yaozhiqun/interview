@@ -6,7 +6,7 @@ object LRUCacheSolution extends App {
 
   case class LRUCache[K, V](size: Int = 4) {
 
-    private var first: Option[Entry] = None
+    private var head: Option[Entry] = None
 
     case class Entry(key: K, value: V, var prev: Option[Entry] = None, var next: Option[Entry] = None) {
 
@@ -19,7 +19,7 @@ object LRUCacheSolution extends App {
 
     def get(key: K): Option[V] = {
       store.get(key).map(entry => {
-        bubbleUp(entry) // side effect
+        moveToHead(entry) // side effect
         entry.value
       })
     }
@@ -27,28 +27,28 @@ object LRUCacheSolution extends App {
     def put(key: K, value: V): LRUCache[K, V] = {
       store.get(key) match {
         case Some(e) =>
-          bubbleUp(e) // side effect
+          moveToHead(e) // side effect
         case None =>
           if (store.size == size) {
-            val last = lastOption.getOrElse(throw new IllegalAccessError("There must be a last entry when cache is full"))
+            val last = findLast.getOrElse(throw new IllegalAccessError("There must be a last entry when cache is full"))
             last.prev.foreach(_.next = None)
             store -= last.key
           }
-          val newEntry = Entry(key, value, next = first)
-          first.foreach(_.prev = Some(newEntry))
+          val newEntry = Entry(key, value, next = head)
+          head.foreach(_.prev = Some(newEntry))
           store += key -> newEntry
-          bubbleUp(newEntry)
+          moveToHead(newEntry)
       }
       this
     }
 
-    private def bubbleUp(entry: Entry): Entry = {
+    private def moveToHead(entry: Entry): Entry = {
       entry.prev match {
         case Some(p) =>
           // store the prev's prev
           val pp = p.prev
           // store curr's next
-          val nn = entry.next
+          val n = entry.next
           // flip prev and curr
           entry.next = Some(p)
           p.prev = Some(entry)
@@ -56,25 +56,25 @@ object LRUCacheSolution extends App {
           pp.foreach(_.next = Some(entry))
           entry.prev = pp
           // connect prev's next with curr's next
-          p.next = nn
-          nn.foreach(_.prev = Some(p))
+          p.next = n
+          n.foreach(_.prev = Some(p))
           // repeat
-          bubbleUp(entry)
+          moveToHead(entry)
         case None =>
-          first = Some(entry)
+          head = Some(entry)
           entry
       }
     }
 
-    private def lastOption: Option[Entry] = {
+    private def findLast: Option[Entry] = {
       def recur(entry: Entry): Entry = {
         entry.next.map(recur).getOrElse(entry)
       }
-      first.map(recur)
+      head.map(recur)
     }
 
     override def toString: String = {
-      first.map(_.toString).getOrElse("")
+      head.map(_.toString).getOrElse("")
     }
   }
 

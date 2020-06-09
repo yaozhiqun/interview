@@ -17,6 +17,12 @@ object SmallestKth extends App {
 
   println(combine(List(1,2,5,6), List(3,4,7)))
 
+  List(
+    List(1,4,5),
+    List(1,3,4),
+    List(2,6)
+  )
+
 //  def find(xss: List[List[Int]], kth: Int): Option[Int] = {
 //    def recur(xss: List[List[Int]], kth: Int = 1): Option[Int] = {
 //      xss match {

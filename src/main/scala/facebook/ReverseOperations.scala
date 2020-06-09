@@ -9,7 +9,7 @@ object ReverseOperations extends App {
           val reversed = node.copy(next = prev)
           node.next.map(recur(_, Some(reversed))).getOrElse(reversed)
         }
-       recur(this)
+        recur(this)
       }
 
       def add(value: Int): Node = {

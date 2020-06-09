@@ -17,5 +17,6 @@ object Reversed extends App {
   }
 
   println(solve(List(1, 2), List(2, 1)))
+  println(solve(List(1, 2, 3), List(3, 2, 1)))
   println(solve(List(2), List(1)))
 }

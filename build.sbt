@@ -13,3 +13,5 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test" withSou
 libraryDependencies += "joda-time" % "joda-time" % "2.10"
 
 libraryDependencies += "org.quartz-scheduler" % "quartz" % "2.2.3" withSources()
+
+libraryDependencies += "junit" % "junit" % "4.10"

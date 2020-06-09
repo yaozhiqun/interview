@@ -14,8 +14,11 @@ object PairSums extends App {
           pairs
       }
     }
+//    println(recur(arr.toList))
     recur(arr.toList).size
   }
 
   println(numberOfWays(Array(1, 5, 3, 3, 3), 6))
+//  println(Array(1, 5, 3, 3, 3).sliding(2).count(e => e.sum == 6))
+//  Array(1, 5, 3, 3, 3).sliding(2).filter(_.sum == 6).toList.foreach(e => println(e.deep))
 }

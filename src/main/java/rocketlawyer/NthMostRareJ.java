@@ -16,7 +16,7 @@ public class NthMostRareJ {
 
         Map<Integer, Integer> sorted = occurrence.entrySet()
             .stream()
-            .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+            .sorted(Map.Entry.comparingByValue())
             .collect(Collectors.toMap(
                         Map.Entry::getKey, Map.Entry::getValue,
                         (oldValue, newValue) -> oldValue,
