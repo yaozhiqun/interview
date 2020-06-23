@@ -4,9 +4,9 @@ object Reversed extends App {
 
   def solve(xs: List[Int], ys: List[Int]): Boolean = {
     if (xs.length == ys.length) {
-      def recur(n: Int, m: Int): Boolean = {
-        if (n <= m)
-          xs(n) == ys(m) && recur(n + 1, m - 1)
+      def recur(left: Int, right: Int): Boolean = {
+        if (left <= right)
+          xs(left) == ys(right) && recur(left + 1, right - 1)
         else
           true
       }

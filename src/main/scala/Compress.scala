@@ -3,7 +3,7 @@ object Compress extends App {
   def compress(str: String): String = {
 
     case class Node(char: Char, count: Int) {
-      override def toString: String = s"$char$count"
+      override def toString = s"$char$count"
     }
 
     str.toCharArray.foldLeft(List[Node]()) { (nodes, char) =>

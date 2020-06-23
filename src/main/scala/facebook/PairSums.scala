@@ -6,9 +6,8 @@ object PairSums extends App {
     def recur(xs: List[Int], pairs: List[(Int, Int)] = Nil): List[(Int, Int)] = {
       xs match {
         case head :: tail =>
-          recur(tail, tail.foldLeft(pairs) {
-            case (ps, x) if (head + x) == k => (head, x) :: ps
-            case (ps, _) => ps
+          recur(tail, tail.foldLeft(pairs) { (ps, x) =>
+            if ((head + x) == k)  (head, x) :: ps else ps
           })
         case Nil =>
           pairs

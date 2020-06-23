@@ -23,7 +23,7 @@ class FlightTicketsSpec extends FreeSpec with Matchers {
       // println(flight)
       flight.book(1, 'A')
       flight.book(1, 'B')
-      // println(flight)
+       println(flight)
       flight.book(3) shouldBe List(Ticket(1, 'D'), Ticket(1, 'E'), Ticket(1, 'F'))
     }
 
@@ -33,8 +33,17 @@ class FlightTicketsSpec extends FreeSpec with Matchers {
       flight.book(1, 'A')
       flight.book(1, 'B')
       flight.book(1, 'F')
+      flight.book(2, 'A')
+      flight.book(2, 'B')
+      flight.book(2, 'C')
+      flight.book(2, 'D')
+      flight.book(2, 'E')
+      flight.book(2, 'F')
+      flight.book(3, 'A')
+      flight.book(3, 'B')
+      flight.book(3, 'F')
       // println(flight)
-      flight.book(3) shouldBe List(Ticket(2, 'A'), Ticket(2, 'B'), Ticket(2, 'C'))
+      flight.book(3) shouldBe List(Ticket(1, 'C'), Ticket(1, 'D'), Ticket(1, 'E'))
     }
 
     "Book 4 tickets should return 4 tickets next to each other split by aisle" in {

@@ -2,7 +2,7 @@ package twitch
 
 object SquaresOfSorted extends App {
 
-  val xs = List(-4,-1,0,3,10)
+  val xs = List(-4,-1, 0, 1,3,9)
 
   def solve(xs: List[Int]): List[Int] = {
     def sort(xs: List[Int]): List[Int] = {
@@ -27,17 +27,17 @@ object SquaresOfSorted extends App {
     while(nonNegIndex < A.length && A(nonNegIndex) < 0) nonNegIndex += 1
     var i = nonNegIndex
     var j = nonNegIndex - 1
-//    println(s"i: $i j: $j")
+    println(s"i: $i j: $j")
     Array.tabulate(A.length) { index =>
       if(j < 0 || i < A.length && A(i) < -A(j)) {
         val result = A(i) * A(i)
         i += 1
-        println(s"1 $index: $result")
+        println(s"1 $index: $i $j $result")
         result
       } else {
         val result = A(j) * A(j)
         j -= 1
-        println(s"2 $index: $result")
+        println(s"2 $index: $i $j $result")
         result
       }
     }

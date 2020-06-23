@@ -21,7 +21,7 @@ case class ParkingLot(spaces: Set[ParkingSpace]) {
       NoVacancy
   }
 
-  def take(number: Int): ParkingSpace = {
+  def occupy(number: Int): ParkingSpace = {
     val space = getSpace(number)
     if (space.vacant) {
       space.vacant = false
@@ -43,24 +43,13 @@ case class ParkingLot(spaces: Set[ParkingSpace]) {
   }
 
   def findNearestSpace(car: Car): Option[ParkingSpace] = {
-
     val vacantSpaces = spaces.filter(_.vacant)
-
-    def findHandicappedSpaces = if (car.hasAssociationCard) {
-      vacantSpaces.filter(_.`type` == HandicappedSpace).toList.sortBy(_.distance).headOption
-    } else {
-      None
+    val available = car match {
+      case Car(_, _, true) => vacantSpaces.filter(_.`type` == HandicappedSpace)
+      case Car(_, Compact, _) => vacantSpaces.filter(space => space.`type` == RegularSpace || space.`type` == CompactSpace)
+      case Car(_, Regular, _) => vacantSpaces.filter(space => space.`type` == RegularSpace)
     }
-
-    def findOtherSpaces = {
-      val available = car.carType match {
-        case Compact => vacantSpaces.filter(space => space.`type` == RegularSpace || space.`type` == CompactSpace)
-        case Regular => vacantSpaces.filter(space => space.`type` == RegularSpace)
-      }
-      available.toList.sortBy(_.distance).headOption
-    }
-
-    findHandicappedSpaces orElse findOtherSpaces
+    available.toList.sortBy(_.distance).headOption
   }
 }
 
@@ -93,7 +82,7 @@ case class Parking(parkingLot: ParkingLot, car: Car, parkingSpace: Option[Parkin
     }
 
     if (accessible) {
-      val parkingSpace = parkingLot.take(parkingSpaceNumber)
+      val parkingSpace = parkingLot.occupy(parkingSpaceNumber)
       this.copy(parkingSpace = Some(parkingSpace))
       Some(parkingSpace)
     } else {

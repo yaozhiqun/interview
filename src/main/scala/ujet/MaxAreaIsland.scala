@@ -4,19 +4,19 @@ import scala.collection.mutable.ListBuffer
 
 object MaxAreaIsland extends App {
 
-  case class Dot(row: Int, col: Int)
+  case class Dot(row: Int, col: Int) {
+    def adjacentLeft(islands: List[Island]): Option[Island] = {
+      islands.find(_.dots.exists(d => d.col + 1 == col && d.row == row))
+    }
+
+    def adjacentTop(islands: List[Island], dot: Dot): Option[Island] = {
+      islands.find(_.dots.exists(d => d.col == dot.col && d.row + 1 == dot.row))
+    }
+  }
+
   case class Island(dots: List[Dot])
 
   def islands(xys: Array[Array[Int]]): List[Island] = {
-
-    def adjacentLeft(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
-      islands.find(_.dots.exists(d => d.col + 1 == dot.col && d.row == dot.row))
-    }
-
-    def adjacentTop(islands: ListBuffer[Island], dot: Dot): Option[Island] = {
-      islands.find(_.dots.exists(d => d.col == dot.col && d.row + 1 == dot.row))
-    }
-
     val islands = ListBuffer[Island]()
     for {
       row  <- xys.indices
@@ -24,20 +24,21 @@ object MaxAreaIsland extends App {
     } {
       if (xys(row)(col) == 1) {
         val dot = Dot(row, col)
-        val left = adjacentLeft(islands, dot)
-        val top = adjacentTop(islands, dot)
-        if (left.nonEmpty && top.nonEmpty) {
-          islands -= left.get
-          islands -= top.get
-          islands += Island((dot :: left.get.dots ::: top.get.dots).distinct)
-        } else if (left.isDefined) {
-          islands -= left.get
-          islands += Island(dot :: left.get.dots)
-        } else if (top.isDefined) {
-          islands -= top.get
-          islands += Island(dot :: top.get.dots)
-        } else {
-          islands += Island(dot :: Nil)
+        val leftIsl = dot.adjacentLeft(islands.toList)
+        val topIsl = dot.adjacentTop(islands.toList, dot)
+        (leftIsl, topIsl) match {
+          case (Some(left), Some(top)) =>
+            islands -= left
+            islands -= top
+            islands += Island((dot :: left.dots ::: top.dots).distinct)
+          case (Some(left), None) =>
+            islands -= left
+            islands += Island(dot :: left.dots)
+          case (None, Some(top)) =>
+            islands -= top
+            islands += Island(dot :: top.dots)
+          case _ =>
+            islands += Island(dot :: Nil)
         }
       }
     }

@@ -38,7 +38,7 @@ object BinaryTree extends App {
           case Nil =>
             sum
           case _ =>
-            bfsCount(nodes.flatMap(_.left) ::: nodes.flatMap(_.right), nodes.count(_.left.isDefined) + sum)
+              bfsCount(nodes.flatMap(_.left) ::: nodes.flatMap(_.right), nodes.count(_.left.isDefined) + sum)
         }
 
       }

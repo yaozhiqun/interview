@@ -1,33 +1,63 @@
+import scala.collection.mutable
+
 object MergeSorted extends App {
 
-  def combine(xs: List[Int], ys: List[Int], combined: List[Int] = List[Int]()): List[Int] = {
-    xs match {
-      case x :: xtail =>
-        ys match {
-          case y :: _ if y >= x => combine(xtail, ys, combined :+ x)
-          case y :: ytail if y < x => combine(xs, ytail, combined :+ y)
-          case Nil => combined ++ xs
-        }
-      case Nil =>
-        combined ++ ys
+  def merge2Sorted(xs: List[Int], ys: List[Int], merged: List[Int] = List[Int]()): List[Int] = {
+    (xs, ys) match {
+      case (x :: xtail, y :: ytail) =>
+        if (x > y) merge2Sorted(xs, ytail, merged :+ y)
+        else if (x == y) merge2Sorted(xtail, ytail, merged :+ x :+ y)
+        else merge2Sorted(xtail, ys, merged :+ x)
+      case (Nil, _) => merged ::: ys
+      case (_, Nil) => merged ::: xs
+      case (Nil, Nil) => merged
     }
   }
 
-  def merge(xss: List[List[Int]]): List[Int] = {
+  def mergeSorted(xss: List[List[Int]]): List[Int] = {
     xss match {
       case Nil => Nil
       case head :: Nil => head
       case head :: tail =>
         tail.foldLeft(head) { (l, xs) =>
-          combine(l, xs)
+          merge2Sorted(l, xs)
         }
     }
   }
 
-  println(merge(List(
+  println(mergeSorted(List(
     List(1,4,5),
     List(1,3,4),
     List(2,6)
   )))
-//  println(combine(List(1,4,5), List(1,3,4)))
+
+  case class LinkedNode(x: Int, next: Option[LinkedNode] = None)
+
+  def mergeKLists(nodes: List[LinkedNode]): List[Int] = {
+    val pq = mutable.PriorityQueue.empty[LinkedNode](Ordering.by(_.x)).reverse
+    nodes.foreach(pq.enqueue(_))
+
+    val result = mutable.ListBuffer[Int]()
+    while (pq.nonEmpty) {
+      val node = pq.dequeue()
+      result += node.x
+      node.next.foreach(pq.enqueue(_))
+    }
+    result.toList
+  }
+
+  def mapToLinkNode(xss: List[List[Int]]): List[LinkedNode] = {
+    xss.foldLeft(List[LinkedNode]()) { (l, xs) =>
+      xs.reverse match {
+        case head :: tail => tail.foldLeft(LinkedNode(head)) { (n, x) => LinkedNode(x, next = Some(n)) } :: l
+        case Nil => l
+      }
+    }
+  }
+
+  println(mergeKLists(mapToLinkNode(List(
+    List(1,4,5),
+    List(1,3,4),
+    List(2,6)
+  ))))
 }

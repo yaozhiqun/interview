@@ -4,35 +4,22 @@ object CountTriplets extends App {
 
   def solve(xs: List[Int], ratio: Int): List[(Int, Int, Int)] = {
 
-    case class Node(value: Int, index: Int)
-    case class Doubles(doubles: List[(Int, Int)] = Nil) {
-      def genTriples(index: Int, triples: Triples): Triples = {
-        triples.copy(triples = doubles.map(double => (double._1, double._2, index)).flatMap(_ :: triples.triples).reverse)
-      }
-    }
-    case class Triples(triples: List[(Int, Int, Int)] = Nil)
-
-    def recur(ys: List[Int], head: Node): Triples = {
-      val first = head.value
-      val second = first * ratio
-      val third = second * ratio
-      ys.zipWithIndex.foldLeft((Doubles(), Triples())) { case ((d, t), (y, index)) =>
-        if (y == second) {
-          (d.copy(doubles = (head.index, head.index + index + 1) :: d.doubles), t)
-        } else if (y == third) {
-          (d, d.genTriples(head.index + index + 1, t))
+    def searchTriples(ys: List[Int], first: Int, firstIndex: Int,
+            triples: List[(Int, Int, Int)],
+            doubles: List[(Int, Int)] = Nil): List[(Int, Int, Int)] = {
+      ys.zipWithIndex.foldLeft((doubles, triples)) { case ((d, t), (y, index)) =>
+        if (y == first * ratio) {
+          (d :+ (firstIndex, index + firstIndex + 1), t)
+        } else if (y == first * ratio * ratio) {
+          (d, t ::: d.map(d => (d._1, d._2, index + firstIndex + 1)))
         } else {
           (d, t)
         }
-      }._2
-    }
-
-    xs.zipWithIndex.foldLeft(List[(Int, Int, Int)]()) { case (l, (x, index)) =>
-      if (index > xs.length - 2) {
-        l
-      } else {
-        l ::: recur(xs.takeRight(xs.length - index - 1), Node(x, index)).triples
       }
+    }._2
+
+    xs.zipWithIndex.foldLeft(List[(Int, Int, Int)]()) { case (triples, (x, index)) =>
+      searchTriples(xs.takeRight(xs.length - index - 1), x, index, triples)
     }
   }
 

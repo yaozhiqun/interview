@@ -19,7 +19,7 @@ object SlowestKeySolution extends App {
         case _ => throw new IllegalArgumentException("Empty array received")
       }
 
-      ('a' to 'z').toList(slowest)
+      ('a' to 'z')(slowest)
     }
 
     val buttons = Array(Array(0, 2), Array(1, 5), Array(0, 9), Array(2, 15))
